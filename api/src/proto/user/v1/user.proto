@@ -9,7 +9,10 @@ service UserService {
   rpc GetAllUsersByDepartment(department.GetAllUsersByDepartmentRequest) returns (department.GetAllUsersByDepartmentResponse);
 }
 
-message GetAllUsersRequest {}
+message GetAllUsersRequest {
+  optional int32 limit = 1;
+  optional int32 skip = 2;
+}
 
 message GetAllUsersResponse {
   repeated GetUserResponse users = 1;

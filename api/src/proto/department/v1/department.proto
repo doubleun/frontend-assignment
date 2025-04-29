@@ -2,13 +2,16 @@ syntax = "proto3";
 
 package department;
 
-message GetAllUsersByDepartmentRequest {}
+message GetAllUsersByDepartmentRequest {
+  optional int32 limit = 1;
+  optional int32 skip = 2;
+}
 
 message Hair {
-  int32 black = 1;
-  int32 blond = 2;
-  int32 chestnut = 3;
-  int32 brown = 4;
+  int32 Black = 1;
+  int32 Blond = 2;
+  int32 Chestnut = 3;
+  int32 Brown = 4;
 }
 
 message GetAllUsersByDepartmentResponse {

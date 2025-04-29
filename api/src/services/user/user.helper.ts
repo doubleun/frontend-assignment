@@ -1,5 +1,8 @@
 import { GetAllUsersByDepartmentResponse } from '../../proto/generated/department';
-import { GetUserResponse } from '../../proto/generated/user';
+import {
+  GetAllUsersRequest,
+  GetUserResponse,
+} from '../../proto/generated/user';
 
 const JSON_ENDPOINT = 'https://dummyjson.com/users';
 
@@ -9,10 +12,27 @@ type FetchUsersResponse = {
   skip: number;
   limit: number;
 };
-export async function fetchUsers(): Promise<GetUserResponse[]> {
-  const res = await fetch(JSON_ENDPOINT);
-  const userData = (await res.json()) as FetchUsersResponse;
 
+export async function fetchUsers(
+  params?: GetAllUsersRequest,
+): Promise<GetUserResponse[]> {
+  const url = new URL(JSON_ENDPOINT);
+
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      // skip undefined/null or empty strings
+      if (value !== undefined && value !== null && value !== '') {
+        url.searchParams.set(key, String(value));
+      }
+    });
+  }
+
+  const res = await fetch(url.toString());
+  if (!res.ok) {
+    throw new Error(`Error fetching users: ${res.status} ${res.statusText}`);
+  }
+
+  const userData = (await res.json()) as FetchUsersResponse;
   return userData.users;
 }
 
@@ -33,16 +53,16 @@ function incrementDepartmentCounts(
   // hair
   switch (user.hair?.color) {
     case 'Black':
-      departmentMap.hair.black++;
+      departmentMap.hair.Black++;
       break;
     case 'Blond':
-      departmentMap.hair.blond++;
+      departmentMap.hair.Blond++;
       break;
     case 'Chestnut':
-      departmentMap.hair.chestnut++;
+      departmentMap.hair.Chestnut++;
       break;
     case 'Brown':
-      departmentMap.hair.brown++;
+      departmentMap.hair.Brown++;
       break;
     default:
       break;
@@ -60,10 +80,10 @@ export function groupUserByDepartment(users: GetUserResponse[]) {
     female: 0,
     ageRange: '',
     hair: {
-      black: 0,
-      blond: 0,
-      chestnut: 0,
-      brown: 0,
+      Black: 0,
+      Blond: 0,
+      Chestnut: 0,
+      Brown: 0,
     },
     addressUser: {},
   };

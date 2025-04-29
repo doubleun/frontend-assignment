@@ -7,7 +7,9 @@ inputs:
     exclude_paths:
       - node_modules
 plugins:
+  # https://github.com/timostamm/protobuf-ts/blob/main/MANUAL.md
   - remote: buf.build/community/timostamm-protobuf-ts:v2.9.6
     out: src/proto/generated
     opt:
       - server_grpc1
+      - use_proto_field_name
