@@ -52,6 +52,34 @@ pnpm dev:api
 
 The server should be up at port `50051`
 
+### How to test gRPC API (using Yaak)
+[Yaak](https://yaak.app/download)
+
+#### 1.) Add new gRPC connection
+<img width="1168" alt="Screenshot 2568-04-29 at 19 10 56" src="https://github.com/user-attachments/assets/55e25c1b-eae6-41ca-bde6-c1ef68602fd2" />
+
+#### 2.) Enter the URL it could be `localhost:50051` or `localhost:50052` depend on how you run the api
+<img width="1193" alt="Screenshot 2568-04-29 at 19 11 39" src="https://github.com/user-attachments/assets/dd9b5761-6e32-409f-951a-d974fe97447a" />
+
+#### 3.) There will be `Select Proto File` button on the bottom if the connection is established
+<img width="1191" alt="Screenshot 2568-04-29 at 19 13 21" src="https://github.com/user-attachments/assets/37b3f9e4-6e19-4f0b-a5ac-811f131b0c1b" />
+
+#### 4.1) Click `Add File` and select the first file from `frontend-assignment/api/src/proto/user/v1/user.proto`
+<img width="794" alt="Screenshot 2568-04-29 at 19 14 49" src="https://github.com/user-attachments/assets/5071d68f-25d7-4fe5-b92d-d77f204b3e96" />
+
+#### 4.2) Click `Add File` and select the second file from `frontend-assignment/api/src/proto/department/v1/department.proto`
+<img width="799" alt="Screenshot 2568-04-29 at 19 16 47" src="https://github.com/user-attachments/assets/1f299ce1-6430-4fcc-95dc-6dec706a43d4" />
+
+#### 4.3) The `Configure Schema` dialog should now display 2 proto files selected
+<img width="673" alt="Screenshot 2568-04-29 at 19 16 05" src="https://github.com/user-attachments/assets/333eb81a-f878-4a83-a02c-91e76754d595" />
+
+#### 5.) After close the dialog you should be able to selece the schema to `UserService/GetAllUserByDepartment`
+<img width="1208" alt="Screenshot 2568-04-29 at 19 17 11" src="https://github.com/user-attachments/assets/13a83b74-68b3-415c-b85f-9d00b81607c3" />
+
+#### 6.) You can send `limit` and `skip` and see the result in the bottom right pane
+<img width="1208" alt="Screenshot 2568-04-29 at 19 20 11" src="https://github.com/user-attachments/assets/9dad6d00-00b2-4e83-85f7-1094ececb337" />
+
+
 # Assignment
 
 ## 1. Auto Delete Todo List
