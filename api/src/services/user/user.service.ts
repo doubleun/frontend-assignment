@@ -3,17 +3,25 @@ import { fetchUsers, groupUserByDepartment } from './user.helper';
 
 const userService: IUserService = {
   async getAllUsers(call, callback) {
-    const users = await fetchUsers(call.request);
+    try {
+      const users = await fetchUsers(call.request);
 
-    callback(null, {
-      users,
-    });
+      return callback(null, {
+        users,
+      });
+    } catch (err) {
+      return callback(err as Error, undefined);
+    }
   },
   async getAllUsersByDepartment(call, callback) {
-    const users = await fetchUsers(call.request);
-    const usersGroupByDepartment = groupUserByDepartment(users);
+    try {
+      const users = await fetchUsers(call.request);
+      const usersGroupByDepartment = groupUserByDepartment(users);
 
-    callback(null, usersGroupByDepartment);
+      return callback(null, usersGroupByDepartment);
+    } catch (err) {
+      return callback(err as Error, undefined);
+    }
   },
 };
 

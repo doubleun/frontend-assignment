@@ -1,3 +1,55 @@
+# How to run
+
+## Web
+
+### Option 1: Demo from this link
+
+[Demo web](https://frontend-assignment-sand-seven.vercel.app/)
+
+### Option 2: Development
+
+While at the project root, run
+
+```bash
+pnpm dev:web
+```
+
+## API
+
+Check unit tests by running
+
+```bash
+pnpm test
+```
+
+At the root of the project or inside `/api`
+
+### Option 1: Run compose
+
+While at the project root, run
+
+```bash
+docker compose up -d --build api
+```
+
+The server should be up at port `50052`
+
+### Option 2: Development
+
+While at the project root, run
+
+```bash
+pnpm install
+```
+
+Then run
+
+```bash
+pnpm dev:api
+```
+
+The server should be up at port `50051`
+
 # Assignment
 
 ## 1. Auto Delete Todo List

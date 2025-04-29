@@ -16,24 +16,29 @@ type FetchUsersResponse = {
 export async function fetchUsers(
   params?: GetAllUsersRequest,
 ): Promise<GetUserResponse[]> {
-  const url = new URL(JSON_ENDPOINT);
+  try {
+    const url = new URL(JSON_ENDPOINT);
 
-  if (params) {
-    Object.entries(params).forEach(([key, value]) => {
-      // skip undefined/null or empty strings
-      if (value !== undefined && value !== null && value !== '') {
-        url.searchParams.set(key, String(value));
-      }
-    });
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        // skip undefined/null or empty strings
+        if (value !== undefined && value !== null && value !== '') {
+          url.searchParams.set(key, String(value));
+        }
+      });
+    }
+
+    const res = await fetch(url.toString());
+    if (!res.ok) {
+      throw new Error(`Error fetching users: ${res.status} ${res.statusText}`);
+    }
+
+    const userData = (await res.json()) as FetchUsersResponse;
+    return userData.users;
+  } catch (err) {
+    console.error(err);
+    throw err;
   }
-
-  const res = await fetch(url.toString());
-  if (!res.ok) {
-    throw new Error(`Error fetching users: ${res.status} ${res.statusText}`);
-  }
-
-  const userData = (await res.json()) as FetchUsersResponse;
-  return userData.users;
 }
 
 type DepartmentData = Required<GetAllUsersByDepartmentResponse>;
@@ -71,7 +76,9 @@ function incrementDepartmentCounts(
   return;
 }
 
-export function groupUserByDepartment(users: GetUserResponse[]) {
+export function groupUserByDepartment(
+  users: GetUserResponse[],
+): Required<GetAllUsersByDepartmentResponse> {
   let lowestAge = null;
   let highestAge = null;
 
