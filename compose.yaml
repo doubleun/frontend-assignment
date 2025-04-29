@@ -1,0 +1,14 @@
+name: grpc-api
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: grpc-api
+    ports:
+      - "50052:50051"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    expose:
+      - 50052

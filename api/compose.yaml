@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  grpc-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: test-grpc-server:latest
+    container_name: test-grpc-server
+    environment:
+      - NODE_ENV=production
+    ports:
+      - '50052:50051' # expose gRPC port to host
+    restart: unless-stopped
+    healthcheck: # healthcheck for service orchestration
+      test: ['CMD-SHELL', 'grpc_health_probe -addr localhost:50051']
+      interval: 30s
+      timeout: 5s
+      retries: 3
