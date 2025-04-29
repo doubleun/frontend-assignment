@@ -9,6 +9,14 @@ export const useSelectItems = () => {
   const { items: itemState, setItems } = use(SelectItemContext);
   const timers = useRef<Record<ItemInterface['id'], NodeJS.Timeout>>({});
 
+  const clearTimer = useCallback((id: ItemInterface['id']) => {
+    const t = timers.current[id];
+    if (t) {
+      clearTimeout(t);
+      delete timers.current[id];
+    }
+  }, []);
+
   const handleMutateItem = useCallback(
     (item: ItemInterface, action: 'ADD' | 'REMOVE') => {
       setItems((prev) => {
@@ -26,6 +34,9 @@ export const useSelectItems = () => {
 
   const handleSelectItem = useCallback(
     (item: ItemInterface) => {
+      // clear previous timeout before mutate
+      clearTimer(item.id);
+
       // case: already added - remove
       if (itemState.has(item.id)) {
         handleMutateItem(item, 'REMOVE');
@@ -42,9 +53,12 @@ export const useSelectItems = () => {
           next.delete(item.id);
           return next;
         });
+
+        // delete from timers.current after it is done
+        if (timers.current[item.id]) delete timers.current[item.id];
       }, 5000);
     },
-    [handleMutateItem, itemState, setItems],
+    [handleMutateItem, itemState, setItems, clearTimer],
   );
 
   // clear all pending timeouts on unmount
