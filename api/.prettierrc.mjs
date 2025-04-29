@@ -12,7 +12,6 @@ export default {
   proseWrap: "always", // printWidth line breaks in md/mdx
   plugins: [
     "@ianvs/prettier-plugin-sort-imports",
-    "prettier-plugin-tailwindcss",
   ],
   tailwindFunctions: ["clsx", "cva", "cx"],
   // import order plugin options

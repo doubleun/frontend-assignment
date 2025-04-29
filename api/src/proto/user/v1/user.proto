@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package user;
+
+service UserService {
+  rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUsersResponse);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+}
+
+message GetAllUsersRequest {}
+
+message GetAllUsersResponse {
+  repeated GetUserResponse users = 1;
+}
+
+message GetUserRequest {
+  string id = 1;
+}
+
+message GetUserResponse {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message Coordinates {
+  double lat = 1;
+  double lng = 2;
+}
+
+message Address {
+  string address = 1;
+  string city = 2;
+  string state = 3;
+  string stateCode = 4;
+  string postalCode = 5;
+  Coordinates coordinates = 6;
+  string country = 7;
+}
+
+message Hair {
+  string color = 1;
+  string type = 2;
+}
+
+message Bank {
+  string cardExpire = 1;
+  string cardNumber = 2;
+  string cardType = 3;
+  string currency = 4;
+  string iban = 5;
+}
+
+message Company {
+  string department = 1;
+  string name = 2;
+  string title = 3;
+  Address address = 4;
+}
+
+message Crypto {
+  string coin = 1;
+  string wallet = 2;
+  string network = 3;
+}
+
+// Top‐level user message
+message User {
+  int32 id = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string maidenName = 4;
+  int32 age = 5;
+  string gender = 6;
+  string email = 7;
+  string phone = 8;
+  string username = 9;
+  string password = 10;
+  string birthDate = 11; // ISO date as string
+  string image = 12;
+  string bloodGroup = 13;
+  double height = 14;
+  double weight = 15;
+  string eyeColor = 16;
+  Hair hair = 17;
+  string ip = 18;
+  Address address = 19;
+  string macAddress = 20;
+  string university = 21;
+  Bank bank = 22;
+  Company company = 23;
+  string ein = 24;
+  string ssn = 25;
+  string userAgent = 26;
+  Crypto crypto = 27;
+  string role = 28;
+}

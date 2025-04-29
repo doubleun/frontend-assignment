@@ -3,7 +3,7 @@
   "language": "en",
   "dictionaries": [],
   "dictionaryDefinitions": [],
-  "words": ["vercel", "protos"],
+  "words": ["vercel", "protos", "oneofs"],
   "ignoreRegExpList": ["/[\\u0E00-\\u0E7F]/g"],
   "ignorePaths": ["**/package*.json", "**/*.prettier*", "**/.gitignore"],
   "useGitignore": true
