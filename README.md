@@ -1,6 +1,6 @@
 # How to run
 
-## Web
+## Web (TypeScript, NextJS)
 
 ### Option 1: Demo from this link
 
@@ -14,9 +14,11 @@ While at the project root, run
 pnpm dev:web
 ```
 
-## API
+## API (TypeScript, NodeJS, gRPC)
 
 Check unit tests by running
+
+<img width="595" alt="Screenshot 2568-04-29 at 19 06 55" src="https://github.com/user-attachments/assets/1ff2af6c-8d65-4751-8dc8-82e19239280e" />
 
 ```bash
 pnpm test
