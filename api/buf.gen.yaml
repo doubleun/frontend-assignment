@@ -8,6 +8,6 @@ inputs:
       - node_modules
 plugins:
   - remote: buf.build/community/timostamm-protobuf-ts:v2.9.6
-    out: src/proto
+    out: src/proto/generated
     opt:
       - server_grpc1

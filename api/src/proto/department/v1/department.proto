@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package department;
+
+message GetAllUsersByDepartmentRequest {}
+
+message Hair {
+  int32 black = 1;
+  int32 blond = 2;
+  int32 chestnut = 3;
+  int32 brown = 4;
+}
+
+message GetAllUsersByDepartmentResponse {
+  int32 male = 1; // count male
+  int32 female = 2; // count female
+  string ageRange = 3; // xx-xx
+  Hair hair = 4;
+  map<string, string> addressUser = 5;
+}

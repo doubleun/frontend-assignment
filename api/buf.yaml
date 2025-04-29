@@ -6,5 +6,6 @@ lint:
   use:
     - DEFAULT
 modules:
-  - path: ./src/proto
+  - path: ./src/proto/department/v1
+  - path: ./src/proto/user/v1
   - path: ./node_modules/@protobuf-ts/plugin

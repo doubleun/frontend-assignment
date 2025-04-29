@@ -2,25 +2,17 @@ syntax = "proto3";
 
 package user;
 
+import "department.proto";
+
 service UserService {
   rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUsersResponse);
-  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc GetAllUsersByDepartment(department.GetAllUsersByDepartmentRequest) returns (department.GetAllUsersByDepartmentResponse);
 }
 
 message GetAllUsersRequest {}
 
 message GetAllUsersResponse {
   repeated GetUserResponse users = 1;
-}
-
-message GetUserRequest {
-  string id = 1;
-}
-
-message GetUserResponse {
-  string id = 1;
-  string name = 2;
-  string email = 3;
 }
 
 message Coordinates {
@@ -65,7 +57,7 @@ message Crypto {
 }
 
 // Top‐level user message
-message User {
+message GetUserResponse {
   int32 id = 1;
   string firstName = 2;
   string lastName = 3;
