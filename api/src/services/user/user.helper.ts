@@ -1,4 +1,7 @@
-import { GetAllUsersByDepartmentResponse } from '../../proto/generated/department';
+import {
+  DepartmentData,
+  GetAllUsersByDepartmentResponse,
+} from '../../proto/generated/department';
 import {
   GetAllUsersRequest,
   GetUserResponse,
@@ -6,12 +9,19 @@ import {
 
 const JSON_ENDPOINT = 'https://dummyjson.com/users';
 
-type FetchUsersResponse = {
+interface FetchUsersResponse {
   users: GetUserResponse[];
   total: number;
   skip: number;
   limit: number;
-};
+}
+
+interface DepartmentMinMaxAge {
+  [key: string]: {
+    min: number;
+    max: number;
+  };
+}
 
 export async function fetchUsers(
   params?: GetAllUsersRequest,
@@ -41,8 +51,6 @@ export async function fetchUsers(
   }
 }
 
-type DepartmentData = Required<GetAllUsersByDepartmentResponse>;
-
 /** increment gender, hairColor counts */
 function incrementDepartmentCounts(
   user: GetUserResponse,
@@ -56,21 +64,14 @@ function incrementDepartmentCounts(
   }
 
   // hair
-  switch (user.hair?.color) {
-    case 'Black':
-      departmentMap.hair.Black++;
-      break;
-    case 'Blond':
-      departmentMap.hair.Blond++;
-      break;
-    case 'Chestnut':
-      departmentMap.hair.Chestnut++;
-      break;
-    case 'Brown':
-      departmentMap.hair.Brown++;
-      break;
-    default:
-      break;
+  const hairColor = user.hair?.color;
+
+  if (!hairColor) return;
+
+  if (departmentMap.hair[hairColor]) {
+    departmentMap.hair[hairColor]++;
+  } else {
+    departmentMap.hair[hairColor] = 1;
   }
 
   return;
@@ -79,53 +80,62 @@ function incrementDepartmentCounts(
 export function groupUserByDepartment(
   users: GetUserResponse[],
 ): Required<GetAllUsersByDepartmentResponse> {
-  let lowestAge = null;
-  let highestAge = null;
-
-  const departmentMap: DepartmentData = {
-    male: 0,
-    female: 0,
-    ageRange: '',
-    hair: {
-      Black: 0,
-      Blond: 0,
-      Chestnut: 0,
-      Brown: 0,
-    },
-    addressUser: {},
-  };
+  let departmentAge: DepartmentMinMaxAge = {}; // map each department to their highest and lowest age
+  const departmentMap: Record<string, DepartmentData> = {};
 
   for (let i = 0; i < users.length; i++) {
     const user = users[i];
-    if (!user.company?.department) continue;
+    const department = user.company?.department;
+    if (!department) continue;
+
+    // check if department already exists in the map
+    if (!departmentMap[department]) {
+      // if not initialize department data in the map
+      departmentMap[department] = {
+        male: 0,
+        female: 0,
+        ageRange: '',
+        addressUser: {},
+        hair: {},
+      };
+    }
 
     // increment counts
-    incrementDepartmentCounts(user, departmentMap);
+    incrementDepartmentCounts(user, departmentMap[department]);
 
     // add user address
     if (user.address?.postalCode) {
       const fullname = `${user.firstName}${user.lastName}`;
-      departmentMap.addressUser[fullname] = user.address?.postalCode;
+      departmentMap[department].addressUser[fullname] =
+        user.address?.postalCode;
     }
 
-    // update lowest and highest age
-    // initial lowest and highest
-    if (!lowestAge && !highestAge) {
-      lowestAge = user.age;
-      highestAge = user.age;
+    // update min/max department age
+    // initial min and max
+    if (!departmentAge[department]?.min && !departmentAge[department]?.max) {
+      departmentAge[department] = {
+        min: user.age,
+        max: user.age,
+      };
     }
 
-    if (lowestAge && user.age < lowestAge) {
-      lowestAge = user.age;
-    } else if (highestAge && user.age > highestAge) {
-      highestAge = user.age;
+    // update min age if user age is lower
+    if (user.age < departmentAge[department].min) {
+      departmentAge[department].min = user.age;
+    }
+
+    // update max age if user age is higher
+    if (user.age > departmentAge[department].max) {
+      departmentAge[department].max = user.age;
     }
   }
 
-  // update ageRange
-  if (lowestAge && highestAge) {
-    departmentMap.ageRange = `${lowestAge} - ${highestAge}`;
+  // update department ageRange
+  for (const [department, ageRange] of Object.entries(departmentAge)) {
+    departmentMap[department].ageRange = `${ageRange.min} - ${ageRange.max}`;
   }
 
-  return departmentMap;
+  return {
+    departments: departmentMap,
+  };
 }

@@ -24,30 +24,9 @@ export interface GetAllUsersByDepartmentRequest {
     skip?: number;
 }
 /**
- * @generated from protobuf message department.Hair
+ * @generated from protobuf message department.DepartmentData
  */
-export interface Hair {
-    /**
-     * @generated from protobuf field: int32 Black = 1 [json_name = "Black"];
-     */
-    Black: number;
-    /**
-     * @generated from protobuf field: int32 Blond = 2 [json_name = "Blond"];
-     */
-    Blond: number;
-    /**
-     * @generated from protobuf field: int32 Chestnut = 3 [json_name = "Chestnut"];
-     */
-    Chestnut: number;
-    /**
-     * @generated from protobuf field: int32 Brown = 4 [json_name = "Brown"];
-     */
-    Brown: number;
-}
-/**
- * @generated from protobuf message department.GetAllUsersByDepartmentResponse
- */
-export interface GetAllUsersByDepartmentResponse {
+export interface DepartmentData {
     /**
      * @generated from protobuf field: int32 male = 1;
      */
@@ -61,14 +40,27 @@ export interface GetAllUsersByDepartmentResponse {
      */
     ageRange: string; // xx-xx
     /**
-     * @generated from protobuf field: department.Hair hair = 4;
+     * @generated from protobuf field: map<string, int32> hair = 4;
      */
-    hair?: Hair;
+    hair: {
+        [key: string]: number;
+    }; // "Black": 12, "Blond": 4, etc.
     /**
      * @generated from protobuf field: map<string, string> addressUser = 5;
      */
     addressUser: {
         [key: string]: string;
+    };
+}
+/**
+ * @generated from protobuf message department.GetAllUsersByDepartmentResponse
+ */
+export interface GetAllUsersByDepartmentResponse {
+    /**
+     * @generated from protobuf field: map<string, department.DepartmentData> departments = 1;
+     */
+    departments: {
+        [key: string]: DepartmentData;
     };
 }
 // @generated message type with reflection information, may provide speed optimized methods
@@ -125,98 +117,28 @@ class GetAllUsersByDepartmentRequest$Type extends MessageType<GetAllUsersByDepar
  */
 export const GetAllUsersByDepartmentRequest = new GetAllUsersByDepartmentRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class Hair$Type extends MessageType<Hair> {
+class DepartmentData$Type extends MessageType<DepartmentData> {
     constructor() {
-        super("department.Hair", [
-            { no: 1, name: "Black", kind: "scalar", localName: "Black", jsonName: "Black", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "Blond", kind: "scalar", localName: "Blond", jsonName: "Blond", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "Chestnut", kind: "scalar", localName: "Chestnut", jsonName: "Chestnut", T: 5 /*ScalarType.INT32*/ },
-            { no: 4, name: "Brown", kind: "scalar", localName: "Brown", jsonName: "Brown", T: 5 /*ScalarType.INT32*/ }
-        ]);
-    }
-    create(value?: PartialMessage<Hair>): Hair {
-        const message = globalThis.Object.create((this.messagePrototype!));
-        message.Black = 0;
-        message.Blond = 0;
-        message.Chestnut = 0;
-        message.Brown = 0;
-        if (value !== undefined)
-            reflectionMergePartial<Hair>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: Hair): Hair {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* int32 Black = 1 [json_name = "Black"];*/ 1:
-                    message.Black = reader.int32();
-                    break;
-                case /* int32 Blond = 2 [json_name = "Blond"];*/ 2:
-                    message.Blond = reader.int32();
-                    break;
-                case /* int32 Chestnut = 3 [json_name = "Chestnut"];*/ 3:
-                    message.Chestnut = reader.int32();
-                    break;
-                case /* int32 Brown = 4 [json_name = "Brown"];*/ 4:
-                    message.Brown = reader.int32();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: Hair, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* int32 Black = 1 [json_name = "Black"]; */
-        if (message.Black !== 0)
-            writer.tag(1, WireType.Varint).int32(message.Black);
-        /* int32 Blond = 2 [json_name = "Blond"]; */
-        if (message.Blond !== 0)
-            writer.tag(2, WireType.Varint).int32(message.Blond);
-        /* int32 Chestnut = 3 [json_name = "Chestnut"]; */
-        if (message.Chestnut !== 0)
-            writer.tag(3, WireType.Varint).int32(message.Chestnut);
-        /* int32 Brown = 4 [json_name = "Brown"]; */
-        if (message.Brown !== 0)
-            writer.tag(4, WireType.Varint).int32(message.Brown);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message department.Hair
- */
-export const Hair = new Hair$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetAllUsersByDepartmentResponse$Type extends MessageType<GetAllUsersByDepartmentResponse> {
-    constructor() {
-        super("department.GetAllUsersByDepartmentResponse", [
+        super("department.DepartmentData", [
             { no: 1, name: "male", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "female", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "ageRange", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "hair", kind: "message", T: () => Hair },
+            { no: 4, name: "hair", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "scalar", T: 5 /*ScalarType.INT32*/ } },
             { no: 5, name: "addressUser", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "scalar", T: 9 /*ScalarType.STRING*/ } }
         ]);
     }
-    create(value?: PartialMessage<GetAllUsersByDepartmentResponse>): GetAllUsersByDepartmentResponse {
+    create(value?: PartialMessage<DepartmentData>): DepartmentData {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.male = 0;
         message.female = 0;
         message.ageRange = "";
+        message.hair = {};
         message.addressUser = {};
         if (value !== undefined)
-            reflectionMergePartial<GetAllUsersByDepartmentResponse>(this, message, value);
+            reflectionMergePartial<DepartmentData>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetAllUsersByDepartmentResponse): GetAllUsersByDepartmentResponse {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: DepartmentData): DepartmentData {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
@@ -230,8 +152,8 @@ class GetAllUsersByDepartmentResponse$Type extends MessageType<GetAllUsersByDepa
                 case /* string ageRange */ 3:
                     message.ageRange = reader.string();
                     break;
-                case /* department.Hair hair */ 4:
-                    message.hair = Hair.internalBinaryRead(reader, reader.uint32(), options, message.hair);
+                case /* map<string, int32> hair */ 4:
+                    this.binaryReadMap4(message.hair, reader, options);
                     break;
                 case /* map<string, string> addressUser */ 5:
                     this.binaryReadMap5(message.addressUser, reader, options);
@@ -247,8 +169,24 @@ class GetAllUsersByDepartmentResponse$Type extends MessageType<GetAllUsersByDepa
         }
         return message;
     }
-    private binaryReadMap5(map: GetAllUsersByDepartmentResponse["addressUser"], reader: IBinaryReader, options: BinaryReadOptions): void {
-        let len = reader.uint32(), end = reader.pos + len, key: keyof GetAllUsersByDepartmentResponse["addressUser"] | undefined, val: GetAllUsersByDepartmentResponse["addressUser"][any] | undefined;
+    private binaryReadMap4(map: DepartmentData["hair"], reader: IBinaryReader, options: BinaryReadOptions): void {
+        let len = reader.uint32(), end = reader.pos + len, key: keyof DepartmentData["hair"] | undefined, val: DepartmentData["hair"][any] | undefined;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case 1:
+                    key = reader.string();
+                    break;
+                case 2:
+                    val = reader.int32();
+                    break;
+                default: throw new globalThis.Error("unknown map entry field for field department.DepartmentData.hair");
+            }
+        }
+        map[key ?? ""] = val ?? 0;
+    }
+    private binaryReadMap5(map: DepartmentData["addressUser"], reader: IBinaryReader, options: BinaryReadOptions): void {
+        let len = reader.uint32(), end = reader.pos + len, key: keyof DepartmentData["addressUser"] | undefined, val: DepartmentData["addressUser"][any] | undefined;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
@@ -258,12 +196,12 @@ class GetAllUsersByDepartmentResponse$Type extends MessageType<GetAllUsersByDepa
                 case 2:
                     val = reader.string();
                     break;
-                default: throw new globalThis.Error("unknown map entry field for field department.GetAllUsersByDepartmentResponse.addressUser");
+                default: throw new globalThis.Error("unknown map entry field for field department.DepartmentData.addressUser");
             }
         }
         map[key ?? ""] = val ?? "";
     }
-    internalBinaryWrite(message: GetAllUsersByDepartmentResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+    internalBinaryWrite(message: DepartmentData, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* int32 male = 1; */
         if (message.male !== 0)
             writer.tag(1, WireType.Varint).int32(message.male);
@@ -273,12 +211,79 @@ class GetAllUsersByDepartmentResponse$Type extends MessageType<GetAllUsersByDepa
         /* string ageRange = 3; */
         if (message.ageRange !== "")
             writer.tag(3, WireType.LengthDelimited).string(message.ageRange);
-        /* department.Hair hair = 4; */
-        if (message.hair)
-            Hair.internalBinaryWrite(message.hair, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
+        /* map<string, int32> hair = 4; */
+        for (let k of globalThis.Object.keys(message.hair))
+            writer.tag(4, WireType.LengthDelimited).fork().tag(1, WireType.LengthDelimited).string(k).tag(2, WireType.Varint).int32(message.hair[k]).join();
         /* map<string, string> addressUser = 5; */
         for (let k of globalThis.Object.keys(message.addressUser))
             writer.tag(5, WireType.LengthDelimited).fork().tag(1, WireType.LengthDelimited).string(k).tag(2, WireType.LengthDelimited).string(message.addressUser[k]).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message department.DepartmentData
+ */
+export const DepartmentData = new DepartmentData$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetAllUsersByDepartmentResponse$Type extends MessageType<GetAllUsersByDepartmentResponse> {
+    constructor() {
+        super("department.GetAllUsersByDepartmentResponse", [
+            { no: 1, name: "departments", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "message", T: () => DepartmentData } }
+        ]);
+    }
+    create(value?: PartialMessage<GetAllUsersByDepartmentResponse>): GetAllUsersByDepartmentResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.departments = {};
+        if (value !== undefined)
+            reflectionMergePartial<GetAllUsersByDepartmentResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetAllUsersByDepartmentResponse): GetAllUsersByDepartmentResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* map<string, department.DepartmentData> departments */ 1:
+                    this.binaryReadMap1(message.departments, reader, options);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    private binaryReadMap1(map: GetAllUsersByDepartmentResponse["departments"], reader: IBinaryReader, options: BinaryReadOptions): void {
+        let len = reader.uint32(), end = reader.pos + len, key: keyof GetAllUsersByDepartmentResponse["departments"] | undefined, val: GetAllUsersByDepartmentResponse["departments"][any] | undefined;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case 1:
+                    key = reader.string();
+                    break;
+                case 2:
+                    val = DepartmentData.internalBinaryRead(reader, reader.uint32(), options);
+                    break;
+                default: throw new globalThis.Error("unknown map entry field for field department.GetAllUsersByDepartmentResponse.departments");
+            }
+        }
+        map[key ?? ""] = val ?? DepartmentData.create();
+    }
+    internalBinaryWrite(message: GetAllUsersByDepartmentResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* map<string, department.DepartmentData> departments = 1; */
+        for (let k of globalThis.Object.keys(message.departments)) {
+            writer.tag(1, WireType.LengthDelimited).fork().tag(1, WireType.LengthDelimited).string(k);
+            writer.tag(2, WireType.LengthDelimited).fork();
+            DepartmentData.internalBinaryWrite(message.departments[k], writer, options);
+            writer.join().join();
+        }
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

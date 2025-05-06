@@ -7,17 +7,14 @@ message GetAllUsersByDepartmentRequest {
   optional int32 skip = 2;
 }
 
-message Hair {
-  int32 Black = 1;
-  int32 Blond = 2;
-  int32 Chestnut = 3;
-  int32 Brown = 4;
-}
-
-message GetAllUsersByDepartmentResponse {
+message DepartmentData {
   int32 male = 1; // count male
   int32 female = 2; // count female
   string ageRange = 3; // xx-xx
-  Hair hair = 4;
+  map<string, int32> hair = 4; // "Black": 12, "Blond": 4, etc.
   map<string, string> addressUser = 5;
+}
+
+message GetAllUsersByDepartmentResponse {
+  map<string, DepartmentData> departments = 1;
 }
