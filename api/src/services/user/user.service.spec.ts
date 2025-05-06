@@ -1,118 +1,104 @@
-import { ServerUnaryCall } from '@grpc/grpc-js';
-
-import { GetAllUsersByDepartmentResponse } from '../../proto/generated/department';
-import { GetAllUsersRequest } from '../../proto/generated/user';
-import * as helper from './user.helper';
+import { fetchUsers, groupUserByDepartment } from './user.helper';
 import userService from './user.service';
 
-describe('User Service', () => {
-  const mockUsers = [
-    {
-      id: 1,
-      firstName: 'Alice',
-      lastName: 'Smith',
-      age: 30,
-      gender: 'female',
-      hair: { color: 'Black', type: '' },
-      address: { postalCode: '12345' },
-      company: {
-        department: 'Sales',
-        name: '',
-        title: '',
-        address: {} as any,
-      },
-    } as any,
-    {
-      id: 2,
-      firstName: 'Bob',
-      lastName: 'Jones',
-      age: 40,
-      gender: 'male',
-      hair: { color: 'Brown', type: '' },
-      address: {},
-      company: {
-        department: 'Engineering',
-        name: '',
-        title: '',
-        address: {} as any,
-      },
-    } as any,
-  ];
+jest.mock('./user.helper');
+
+describe('UserService', () => {
+  const mockFetchUsers = fetchUsers as jest.MockedFunction<typeof fetchUsers>;
+  const mockGroupByDept = groupUserByDepartment as jest.MockedFunction<
+    typeof groupUserByDepartment
+  >;
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
   });
-
   describe('getAllUsers', () => {
-    it('should fetch users and return them via callback', async () => {
-      // Arrange
-      jest.spyOn(helper, 'fetchUsers').mockResolvedValue(mockUsers as any);
-      const call = { request: {} } as ServerUnaryCall<GetAllUsersRequest, any>;
+    it('should fetch users and return via callback', async () => {
+      const fakeUsers = [{ id: 1, firstName: 'John' } as any];
+      mockFetchUsers.mockResolvedValueOnce(fakeUsers);
+
+      const call = { request: { limit: 10, skip: 0 } } as any;
       const callback = jest.fn();
 
-      // Act
-      await userService.getAllUsers(call, callback as any);
+      await userService.getAllUsers(call, callback);
 
-      // Assert
-      expect(helper.fetchUsers).toHaveBeenCalledWith(call.request);
-      expect(callback).toHaveBeenCalledWith(null, { users: mockUsers });
+      expect(mockFetchUsers).toHaveBeenCalledWith(call.request);
+      expect(callback).toHaveBeenCalledWith(null, { users: fakeUsers });
     });
 
-    it('should propagate fetch errors', async () => {
-      // Arrange
-      const err = new Error('Network failure');
-      jest.spyOn(helper, 'fetchUsers').mockRejectedValue(err);
-      const call = { request: {} } as ServerUnaryCall<GetAllUsersRequest, any>;
+    it('should handle errors and call callback with error', async () => {
+      const error = new Error('Fetch failed');
+      mockFetchUsers.mockRejectedValueOnce(error);
+
+      const call = { request: {} } as any;
       const callback = jest.fn();
 
-      // Act
-      await userService.getAllUsers(call, callback as any);
+      await userService.getAllUsers(call, callback);
 
-      // Assert
-      expect(callback).toHaveBeenCalledWith(err, undefined);
+      expect(mockFetchUsers).toHaveBeenCalledWith(call.request);
+      expect(callback).toHaveBeenCalledWith(error, undefined);
     });
   });
 
   describe('getAllUsersByDepartment', () => {
-    it('should fetch users and group by department', async () => {
-      // Arrange
-      const groupResp: Required<GetAllUsersByDepartmentResponse> = {
-        male: 1,
-        female: 1,
-        ageRange: '30 - 40',
-        hair: { Black: 1, Blond: 0, Chestnut: 0, Brown: 1 },
-        addressUser: { AliceSmith: '12345' },
-      };
-      jest.spyOn(helper, 'fetchUsers').mockResolvedValue(mockUsers as any);
-      jest.spyOn(helper, 'groupUserByDepartment').mockReturnValue(groupResp);
+    it('should fetch and group users by department', async () => {
+      const fakeUsers = [
+        { id: 1, firstName: 'Jane', company: { department: 'Sales' } } as any,
+      ];
+      const grouped = {
+        departments: {
+          Sales: {
+            male: 0,
+            female: 0,
+            ageRange: '',
+            hair: {},
+            addressUser: {},
+          },
+        },
+      } as any;
 
-      const call = { request: { limit: 2 } } as ServerUnaryCall<
-        GetAllUsersRequest,
-        any
-      >;
+      mockFetchUsers.mockResolvedValueOnce(fakeUsers);
+      mockGroupByDept.mockReturnValueOnce(grouped as any);
+
+      const call = { request: { limit: 5 } } as any;
       const callback = jest.fn();
 
-      // Act
-      await userService.getAllUsersByDepartment(call, callback as any);
+      await userService.getAllUsersByDepartment(call, callback);
 
-      // Assert
-      expect(helper.fetchUsers).toHaveBeenCalledWith(call.request);
-      expect(helper.groupUserByDepartment).toHaveBeenCalledWith(mockUsers);
-      expect(callback).toHaveBeenCalledWith(null, groupResp);
+      expect(mockFetchUsers).toHaveBeenCalledWith(call.request);
+      expect(mockGroupByDept).toHaveBeenCalledWith(fakeUsers);
+      expect(callback).toHaveBeenCalledWith(null, grouped);
     });
 
-    it('should propagate fetch errors', async () => {
-      // Arrange
-      const err = new Error('Fetch failed');
-      jest.spyOn(helper, 'fetchUsers').mockRejectedValue(err);
-      const call = { request: {} } as ServerUnaryCall<GetAllUsersRequest, any>;
+    it('should handle errors from fetchUsers', async () => {
+      const error = new Error('Network error');
+      mockFetchUsers.mockRejectedValueOnce(error);
+
+      const call = { request: {} } as any;
       const callback = jest.fn();
 
-      // Act
-      await userService.getAllUsersByDepartment(call, callback as any);
+      await userService.getAllUsersByDepartment(call, callback);
 
-      // Assert
-      expect(callback).toHaveBeenCalledWith(err, undefined);
+      expect(mockFetchUsers).toHaveBeenCalledWith(call.request);
+      expect(callback).toHaveBeenCalledWith(error, undefined);
+    });
+
+    it('should handle errors from groupUserByDepartment', async () => {
+      const fakeUsers = [{ id: 2 } as any];
+      const error = new Error('Grouping failed');
+      mockFetchUsers.mockResolvedValueOnce(fakeUsers);
+      mockGroupByDept.mockImplementationOnce(() => {
+        throw error;
+      });
+
+      const call = { request: {} } as any;
+      const callback = jest.fn();
+
+      await userService.getAllUsersByDepartment(call, callback);
+
+      expect(mockFetchUsers).toHaveBeenCalledWith(call.request);
+      expect(mockGroupByDept).toHaveBeenCalledWith(fakeUsers);
+      expect(callback).toHaveBeenCalledWith(error, undefined);
     });
   });
 });
