@@ -8,7 +8,8 @@
     "dev:web": "pnpm -F web dev",
     "dev:api": "pnpm -F api dev",
     "test": "pnpm -r --parallel run test",
-    "format": "pnpm -r --parallel run format"
+    "format": "pnpm -r --parallel run format",
+    "compose": "docker compose up -d api --build"
   },
   "keywords": [],
   "author": "",
