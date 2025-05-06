@@ -1,6 +1,6 @@
 # How to run
 
-## Web (TypeScript, NextJS)
+## 1.) Web (TypeScript, NextJS)
 
 ### Option 1: Demo from this link
 
@@ -14,11 +14,11 @@ While at the project root, run
 pnpm dev:web
 ```
 
-## API (TypeScript, NodeJS, gRPC)
+## 2.) API (TypeScript, NodeJS, gRPC)
 
 Check unit tests by running
 
-<img width="595" alt="Screenshot 2568-04-29 at 19 06 55" src="https://github.com/user-attachments/assets/1ff2af6c-8d65-4751-8dc8-82e19239280e" />
+<img width="587" alt="Screenshot 2568-05-06 at 14 21 15" src="https://github.com/user-attachments/assets/efd82487-2013-4b01-92fb-2d3fbf35b26a" />
 
 ```bash
 pnpm test
@@ -51,6 +51,291 @@ pnpm dev:api
 ```
 
 The server should be up at port `50051`
+
+### Example output from `UserService/GetAllUsersByDepartment` with `limit: 100, skip: 0`
+```json
+{
+  "departments": {
+    "Support": {
+      "male": 5,
+      "female": 2,
+      "ageRange": "28 - 45",
+      "hair": {
+        "Red": 1,
+        "Purple": 1,
+        "Blue": 2,
+        "Green": 1,
+        "Blonde": 2
+      },
+      "addressUser": {
+        "EthanMartinez": "72360",
+        "MichaelWilliams": "38807",
+        "DanielCook": "58781",
+        "AveryCarter": "13916",
+        "HunterGordon": "77521",
+        "EvelynSanchez": "43423",
+        "JamesDavis": "68354"
+      }
+    },
+    "Research and Development": {
+      "male": 3,
+      "female": 5,
+      "ageRange": "25 - 42",
+      "hair": {
+        "Black": 1,
+        "Blue": 2,
+        "White": 2,
+        "Green": 1,
+        "Gray": 1,
+        "Blonde": 1
+      },
+      "addressUser": {
+        "SophiaBrown": "32822",
+        "NatalieHarris": "31121",
+        "NicholasBailey": "58331",
+        "LillianBishop": "79154",
+        "StellaHughes": "24463",
+        "MasonPearson": "82481",
+        "LincolnKelly": "51083",
+        "SofiaMitchell": "42411"
+      }
+    },
+    "Marketing": {
+      "male": 5,
+      "female": 5,
+      "ageRange": "27 - 34",
+      "hair": {
+        "Gray": 2,
+        "Blue": 1,
+        "Black": 1,
+        "Red": 1,
+        "Blonde": 1,
+        "White": 4
+      },
+      "addressUser": {
+        "IsabellaAnderson": "89352",
+        "GabrielHayes": "63269",
+        "RubyAndrews": "85259",
+        "LunaRussell": "64610",
+        "WilliamGonzalez": "78243",
+        "AvaTaylor": "24771",
+        "MilesStevenson": "29192",
+        "GavinStanley": "85234",
+        "IsaacLawrence": "62609",
+        "AveryBarnes": "61359"
+      }
+    },
+    "Engineering": {
+      "male": 8,
+      "female": 5,
+      "ageRange": "26 - 40",
+      "hair": {
+        "Red": 2,
+        "Brown": 2,
+        "White": 2,
+        "Gray": 3,
+        "Green": 2,
+        "Blue": 1,
+        "Purple": 1
+      },
+      "addressUser": {
+        "MasonParker": "20540",
+        "LoganLawson": "10672",
+        "NoahHernandez": "73696",
+        "EmilyJohnson": "29112",
+        "AvaHarrison": "14336",
+        "HannahRobinson": "82463",
+        "CalebPerkins": "12319",
+        "RyanGraham": "44329",
+        "JulianNewton": "33623",
+        "MadisonCollins": "62091",
+        "JacobCooper": "61227",
+        "HarperTurner": "63361",
+        "AlexanderJones": "86684"
+      }
+    },
+    "Services": {
+      "male": 3,
+      "female": 4,
+      "ageRange": "26 - 38",
+      "hair": {
+        "Blue": 1,
+        "Red": 1,
+        "Blonde": 1,
+        "Purple": 1,
+        "Black": 2,
+        "Brown": 1
+      },
+      "addressUser": {
+        "LiamGarcia": "57252",
+        "HenryHill": "81783",
+        "SamanthaHoward": "20118",
+        "LeahHenderson": "42884",
+        "AddisonWright": "54698",
+        "VictoriaMcDonald": "39608",
+        "DylanWells": "54522"
+      }
+    },
+    "Training": {
+      "male": 4,
+      "female": 1,
+      "ageRange": "30 - 33",
+      "hair": {
+        "Blonde": 1,
+        "Brown": 1,
+        "Green": 1,
+        "Black": 1,
+        "Blue": 1
+      },
+      "addressUser": {
+        "LoganTorres": "78805",
+        "EthanFletcher": "87924",
+        "CameronBurke": "32940",
+        "JonathanPierce": "34379",
+        "ClaraBerry": "41818"
+      }
+    },
+    "Human Resources": {
+      "male": 4,
+      "female": 5,
+      "ageRange": "26 - 35",
+      "hair": {
+        "Red": 3,
+        "Purple": 1,
+        "Blonde": 1,
+        "Blue": 1,
+        "White": 3
+      },
+      "addressUser": {
+        "BraydenFleming": "30822",
+        "AbigailRivera": "11407",
+        "OwenFisher": "54304",
+        "GracePerry": "61720",
+        "LucasGordon": "37169",
+        "ZoeNicholson": "39449",
+        "EmmaMiller": "26593",
+        "EllaAdams": "85475",
+        "EvanReed": "19937"
+      }
+    },
+    "Legal": {
+      "male": 6,
+      "female": 7,
+      "ageRange": "25 - 34",
+      "hair": {
+        "Green": 1,
+        "White": 1,
+        "Purple": 2,
+        "Blue": 3,
+        "Blonde": 2,
+        "Red": 2,
+        "Gray": 2
+      },
+      "addressUser": {
+        "OscarPowers": "12263",
+        "LilaHudson": "17472",
+        "AriaRoberts": "70664",
+        "PenelopeHarper": "26857",
+        "JacksonEvans": "26600",
+        "LaylaSullivan": "56891",
+        "ElijahStewart": "31585",
+        "AriaFerguson": "59501",
+        "HarperKelly": "69521",
+        "ChristopherWest": "63011",
+        "JackWard": "42061",
+        "NolanBryant": "56830",
+        "ScarlettWright": "32823"
+      }
+    },
+    "Sales": {
+      "male": 2,
+      "female": 3,
+      "ageRange": "27 - 39",
+      "hair": {
+        "Gray": 1,
+        "Blue": 1,
+        "Blonde": 1,
+        "Red": 1,
+        "White": 1
+      },
+      "addressUser": {
+        "AustinHudson": "64305",
+        "ChloeMorales": "54972",
+        "ScarlettBowman": "63825",
+        "AubreyWagner": "72711",
+        "NathanDixon": "20882"
+      }
+    },
+    "Accounting": {
+      "male": 5,
+      "female": 5,
+      "ageRange": "24 - 36",
+      "hair": {
+        "Gray": 2,
+        "Purple": 2,
+        "Brown": 1,
+        "Black": 1,
+        "Blue": 1,
+        "Green": 1,
+        "Blonde": 1,
+        "Red": 1
+      },
+      "addressUser": {
+        "MiaRodriguez": "41810",
+        "EvelynGonzalez": "84898",
+        "AveryPerez": "30973",
+        "MaxRussell": "46278",
+        "AaliyahHanson": "51438",
+        "MateoNguyen": "20673",
+        "CharlotteLopez": "42044",
+        "GabrielAdams": "21191",
+        "LucasGray": "12506",
+        "EliBennett": "34271"
+      }
+    },
+    "Product Management": {
+      "male": 3,
+      "female": 7,
+      "ageRange": "22 - 34",
+      "hair": {
+        "Purple": 2,
+        "Blue": 2,
+        "Gray": 1,
+        "Blonde": 2,
+        "Green": 1,
+        "Brown": 2
+      },
+      "addressUser": {
+        "MadelineSimpson": "29730",
+        "LilyLee": "41540",
+        "EleanorTyler": "64622",
+        "AutumnGomez": "53203",
+        "BellaGrant": "40138",
+        "AuroraLawson": "29004",
+        "LeviHicks": "74747",
+        "OliviaWilson": "83843",
+        "BenjaminFoster": "48884",
+        "CarterBaker": "74622"
+      }
+    },
+    "Business Development": {
+      "male": 0,
+      "female": 3,
+      "ageRange": "26 - 32",
+      "hair": {
+        "Blonde": 1,
+        "Black": 1,
+        "Red": 1
+      },
+      "addressUser": {
+        "HazelGardner": "35181",
+        "LillianSimmons": "47571",
+        "NoraMills": "51983"
+      }
+    }
+  }
+}
+```
 
 ### How to test gRPC API (using Yaak)
 [Yaak](https://yaak.app/download)
